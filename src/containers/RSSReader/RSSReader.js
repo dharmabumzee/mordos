@@ -1,6 +1,7 @@
 import React from "react";
 import { rss } from "../../utils/icons";
 import { AppWindow } from "../../components/AppWindow";
+import { FetchAPI } from "../../components/FetchAPI";
 
 export const RSSReader = () => {
   return (
@@ -8,7 +9,7 @@ export const RSSReader = () => {
       <AppWindow
         svg={rss.svg}
         backgroundColor={rss.backgroundColor}
-        content="RSS READER"
+        content={<FetchAPI />}
         title="RSS READER"
       />
     </>

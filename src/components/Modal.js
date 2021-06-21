@@ -10,7 +10,7 @@ export default function Modal({ isOpen, toggleModal, title, content }) {
         <Dialog
           initialFocus={closeButtonRef}
           as="div"
-          className="fixed inset-0 z-10 overflow-y-auto"
+          className="fixed inset-0 z-10 "
           onClose={toggleModal}
         >
           <div className="min-h-screen px-4 text-center">
@@ -42,11 +42,11 @@ export default function Modal({ isOpen, toggleModal, title, content }) {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="inline-block w-full overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl h-modal max-w-8xl rounded-2xl">
-                <div className="flex items-center justify-center w-full p-6 text-center border-b border-gray-200 bg-oldLace">
+              <div className="inline-block w-full overflow-auto text-left align-middle transition-all transform bg-white shadow-xl h-modal max-w-8xl rounded-2xl">
+                <div className="sticky top-0 z-50 flex items-center justify-center w-full p-6 text-center border-b border-gray-200 rounded-t-2xl bg-oldLace">
                   <Dialog.Title
                     as="h3"
-                    className="items-center leading-6 text-gray-900 medium"
+                    className="items-center leading-6 text-gray-900 rounded-t-lg medium"
                   >
                     {title}
                   </Dialog.Title>
@@ -55,15 +55,15 @@ export default function Modal({ isOpen, toggleModal, title, content }) {
                     <button
                       ref={closeButtonRef}
                       type="button"
-                      className="absolute inline-flex justify-center px-2 py-0.5 text-sm font-medium text-blue-900 bg-white border border-transparent rounded-md rounded-full left-5 top-6 hover:bg-red-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                      className="absolute inline-flex justify-center px-2 py-0.5 text-sm font-medium text-red-50 bg-closeButton border border-transparent rounded-md rounded-full left-5 top-6 hover:bg-closeButtonHover focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
                       onClick={toggleModal}
                     >
                       X
                     </button>
                   </div>
                 </div>
-                <div className="mt-2">
-                  <p className="text-sm text-gray-500">{content}</p>
+                <div className="relative mt-2 ">
+                  <div className="text-sm text-gray-500 ">{content}</div>
                 </div>
               </div>
             </Transition.Child>

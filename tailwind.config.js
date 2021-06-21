@@ -32,6 +32,8 @@ module.exports = {
       gainsboro: "#d9d7e0",
       oldLace: "#fbf4e5",
       background: "c7cef8",
+      closeButton: "#e96a65",
+      closeButtonHover: "#cc340c",
     },
     extend: {
       height: (theme) => ({
