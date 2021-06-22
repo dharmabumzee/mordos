@@ -1,5 +1,6 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useRef } from "react";
+import { WindowButtons } from "../containers/OS/WindowButtons";
 
 export default function Modal({ isOpen, toggleModal, title, content }) {
   let closeButtonRef = useRef(null);
@@ -43,15 +44,15 @@ export default function Modal({ isOpen, toggleModal, title, content }) {
               leaveTo="opacity-0 scale-95"
             >
               <div className="inline-block w-full overflow-auto align-middle transition-all transform bg-white shadow-xl ext-left h-modal max-w-8xl rounded-2xl">
-                <div className="sticky top-0 z-50 flex items-center justify-center w-full p-6 text-center border-b border-gray-200 rounded-t-2xl bg-oldLace">
+                <div className="sticky top-0 z-50 flex items-center justify-center w-full p-6 text-center border-gray-200 rounded-t-2xl">
                   <Dialog.Title
                     as="h3"
-                    className="items-center font-bold leading-6 text-gray-900 rounded-t-lg medium"
+                    className="items-center invisible font-bold leading-6 text-gray-900 rounded-t-lg medium"
                   >
                     {title}
                   </Dialog.Title>
 
-                  <div className="mt-4">
+                  {/* <div className="mt-4">
                     <button
                       ref={closeButtonRef}
                       type="button"
@@ -60,7 +61,11 @@ export default function Modal({ isOpen, toggleModal, title, content }) {
                     >
                       X
                     </button>
-                  </div>
+                  </div> */}
+                  <WindowButtons
+                    closeButtonRef={closeButtonRef}
+                    toggleModal={toggleModal}
+                  />
                 </div>
                 <div className="relative">
                   <div className="text-sm text-gray-500 ">{content}</div>

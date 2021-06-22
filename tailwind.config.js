@@ -34,6 +34,10 @@ module.exports = {
       background: "c7cef8",
       closeButton: "#e96a65",
       closeButtonHover: "#cc340c",
+      lightSlateGray: "#82879b",
+      darkGray: "#9c8fa2",
+      rosyBrown: "#c394a2",
+      text: "#09151c",
     },
     extend: {
       height: (theme) => ({

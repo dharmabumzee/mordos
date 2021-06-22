@@ -1,9 +1,10 @@
 import React, { useRef, useCallback } from "react";
-import { commentIcon } from "../../utils/icons";
-import { LoadingPulse } from "../../components/LoadingPulse";
-import { Search } from "../../components/Search";
 import { FetchAPI as fetchAPI } from "../../components/FetchAPI";
-import { RSSComment } from "./RSSComment";
+import { LoadingPulse } from "../../components/LoadingPulse";
+import { rss, commentIcon } from "../../utils/icons";
+import { Search } from "../../components/Search";
+import { RSSComment } from "../RSSReader/RSSComment";
+import useWindowSize from "../../hooks/useWindowSize";
 
 export const RSSContent = () => {
   const {
@@ -19,6 +20,9 @@ export const RSSContent = () => {
     hasMore,
     defaultComments,
   } = fetchAPI();
+
+  const windowSize = useWindowSize();
+  const rssFeedWidth = windowSize.width > 768 ? "rss-feed-width" : "";
 
   const observer = useRef();
   const lastCommentRef = useCallback(
@@ -37,18 +41,25 @@ export const RSSContent = () => {
   );
 
   return (
-    <div className="relative grid grid-cols-1 gap-4 sm:grid-cols-3">
-      <div className="hidden h-full mx-4 my-6 border-r sm:flex ">
+    <main className="flex h-screen overflow-x-hidden window-height rounded-3xl">
+      <div className="absolute rounded-lg bg-gradient-to-r from-red-500 to-yellow-600 right-4 -top-14">
+        {rss.svg}
+      </div>
+      <div className="hidden my-6 sm:mx-4 lg:mx-auto textarea-height md:flex ">
         <div
-          onClick={() => clearSearch(defaultComments)}
-          className="flex h-10 p-2 rounded-lg cursor-pointer hover:bg-oldLace"
+          onClick={() => {
+            clearSearch(defaultComments);
+          }}
+          className="flex h-10 p-2 rounded-lg cursor-pointer hover:text-red-50 bg-gradient-to-r hover:from-red-500 hover:to-yellow-600"
         >
           {commentIcon}{" "}
           <span className="ml-2 text-base font-medium ">ALL COMMENTS</span>
         </div>
       </div>
 
-      <div className="h-full col-span-2 ">
+      <section
+        className={`flex flex-col h-full pt-3 overflow-y-scroll border-l ${rssFeedWidth} bg-gray-50`}
+      >
         <Search
           props={comments}
           defaultComments={defaultComments}
@@ -89,7 +100,7 @@ export const RSSContent = () => {
           {loading && <LoadingPulse />}
           {error && "Error"}
         </div>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 };

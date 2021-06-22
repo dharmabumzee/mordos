@@ -5,4 +5,19 @@
 .app-height {
   height: calc(100vh - theme('spacing.7'));
 }
+.window-height {
+  height: calc(100vh - theme('spacing.36'));
+}
+
+.textarea-height {
+  height: calc(100vh - theme('spacing.96'));
+}
+
+.rss-width {
+  width: calc(100vw - theme('spacing.12'));
+}
+
+.rss-feed-width {
+  width: calc(100vw - theme('spacing.96'));
+}
 /*# sourceMappingURL=index.css.map */
