@@ -5,8 +5,8 @@ export const Search = ({
   props,
   search,
   setSearch,
+  defaultComments,
   setFilteredComments,
-  setPageNumber,
   clearSearch,
 }) => {
   const isIncluded = (str, searchTerm) => {
@@ -15,7 +15,8 @@ export const Search = ({
 
   const handleOnSearch = (e) => {
     let searchValue = e.target.value;
-    setSearch(e.target.value);
+    setSearch(searchValue);
+
     let temporaryFilteredComments = props.filter((comment) => {
       return (
         isIncluded(comment.name, searchValue) ||
@@ -23,14 +24,18 @@ export const Search = ({
         isIncluded(comment.body, searchValue)
       );
     });
-    e.target.value !== ""
-      ? setFilteredComments(temporaryFilteredComments)
-      : setFilteredComments(props);
-    setPageNumber(1);
+
+    searchValue.length
+      ? setFilteredComments(
+          temporaryFilteredComments.length
+            ? [...new Set([temporaryFilteredComments[0]])]
+            : []
+        )
+      : setFilteredComments(defaultComments);
   };
 
   const handleOnClick = () => {
-    clearSearch(props);
+    clearSearch(defaultComments);
   };
 
   return (

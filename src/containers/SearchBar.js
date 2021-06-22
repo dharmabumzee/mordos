@@ -2,12 +2,11 @@ import React from "react";
 import { searchIcon, closeIcon } from "../utils/icons";
 
 const styles = {
-  searchIcon: "absolute inset-0 w-4 h-4 m-auto ml-4 text-gray-600",
-  input:
-    "w-full py-2 pl-10 text-sm text-gray-500 placeholder-gray-600 bg-gray-100 rounded focus:outline-none",
+  searchIcon: "absolute inset-0 w-4 h-4 m-auto ml-3 text-gray-600",
+  input: "w-full appearance-none border border-grey rounded-lg pl-8 pr-4 py-2",
   container: "relative w-11/12 mx-auto mt-6",
   closeIcon:
-    "absolute right-2 bottom-1.5 cursor-pointer transition-all hover:text-gray-700",
+    "absolute text-indigo-400 right-2 bottom-1.5 cursor-pointer transition-all hover:text-indigo-700",
 };
 
 const placeholder = "Search";
