@@ -18,6 +18,12 @@ export const TextEditorApp = () => {
       : 1
   );
 
+  const [file, setFile] = useState(null);
+  const fileToSave = (id) => {
+    let note = savedNotes.filter((note) => note.id === id);
+    setFile(note);
+  };
+
   const [savedNotes, setSavedNotes] = useState(initialStateSavedNotes);
   const [state, setState] = useState({
     title: "",
@@ -49,24 +55,6 @@ export const TextEditorApp = () => {
           timestamp: note.timestamp,
         })
     );
-  };
-
-  const saveOnEditNote = async (id) => {
-    console.log("SAVE ON EDIT: ", id);
-    // let filteredNotes = savedNotes.filter((note) => note.id !== id);
-    // console.log(filteredNotes);
-    // await setSavedNotes(filteredNotes);
-    // console.log(savedNotes);
-    // setSavedNotes([...savedNotes, { ...state, date: Date.now() }]);
-    // console.log(state);
-
-    // setId(id + 1);
-    // setState({
-    //   title: "",
-    //   text: "",
-    //   id: id + 1,
-    // });
-    // setEditMode(false);
   };
 
   const deleteNote = (id) => {
@@ -120,6 +108,8 @@ export const TextEditorApp = () => {
           setEditMode,
           sortedListAsc,
           sortedListDesc,
+          file,
+          fileToSave,
         }}
       >
         <div className="flex w-full shadow-lg pte-height rounded-3xl">
