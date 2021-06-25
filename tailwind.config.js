@@ -4,6 +4,9 @@ module.exports = {
   purge: ["./src/**/*.{js,jsx,ts,tsx}", "./public/index.html"],
   darkMode: false, // or 'media' or 'class'
   theme: {
+    // fill: (theme) => ({
+    //   indigo: colors.indigo,
+    // }),
     colors: {
       transparent: "transparent",
       current: "currentColor",
@@ -19,6 +22,7 @@ module.exports = {
       sky: colors.sky,
       red: colors.rose,
       yellow: colors.amber,
+      orange: colors.orange,
       blue: colors.blue,
       purple: colors.purple,
       pink: colors.pink,
@@ -47,12 +51,18 @@ module.exports = {
         "screen/4": "calc(100vh / 4)",
         "screen/5": "calc(100vh / 5)",
       }),
+      transformOrigin: ["hover", "group-hover", "focus"],
+      screens: {
+        "3xl": "1600px",
+      },
     },
   },
   variants: {
     extend: {
       borderWidth: ["hover", "focus"],
       transitionProperty: ["hover", "focus"],
+      scale: ["active", "group-hover"],
+      display: ["hover", "focus", "group-hover"],
     },
   },
   plugins: [],

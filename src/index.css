@@ -9,8 +9,20 @@
   height: calc(100vh - theme('spacing.36'));
 }
 
+.pte-height {
+  height: calc(100vh - theme('spacing.32'));
+}
+
+.camera-app-small-screens-height {
+  height: calc(100vh - theme('spacing.32'));
+}
+
+.photo-app {
+  height: 85vh;
+}
+
 .textarea-height {
-  height: calc(100vh - theme('spacing.96'));
+  height: calc(94vh - theme('spacing.96'));
 }
 
 .rss-width {
@@ -20,4 +32,27 @@
 .rss-feed-width {
   width: calc(100vw - theme('spacing.96'));
 }
+
+.camera-height {
+  height: calc(100vh - theme('spacing.28'));
+}
+
+.take-photo {
+  border-radius: 50%;
+  background: linear-gradient(145deg, #cccccc, #f3f3f3);
+  box-shadow: 20px 20px 60px #c1c1c1, -20px -20px 60px #ffffff;
+}
+
+.close-photo {
+  border-radius: 150px;
+  background: #d69595;
+  box-shadow: 26px 26px 52px #9e6e6e, -26px -26px 52px #ffbcbc;
+}
+
+.accept-photo {
+  border-radius: 150px;
+  background: #69ceb5;
+  box-shadow: 26px 26px 52px #4e9886, -26px -26px 52px #84ffe4;
+}
+
 /*# sourceMappingURL=index.css.map */

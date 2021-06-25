@@ -1,9 +1,7 @@
 import React from "react";
-import { searchIcon, closeIcon } from "../utils/icons";
+import { closeIcon } from "../utils/icons";
 
 const styles = {
-  // searchIcon: "absolute inset-0 w-4 h-4 m-auto ml-3 text-gray-600",
-  // input: "w-full appearance-none border border-grey rounded-lg pl-8 pr-4 py-2",
   input:
     "w-full p-4 transition duration-200 bg-gray-100 rounded-lg focus:outline-none focus:ring-2",
   container: "relative w-11/12 mx-auto mt-6",
@@ -18,7 +16,6 @@ export const SearchBar = ({ search, handleOnSearch, handleOnClick }) => {
   return (
     <>
       <div className={styles.container}>
-        {/* <div className={styles.searchIcon}>{searchIcon}</div> */}
         <input
           onChange={handleOnSearch}
           value={search}

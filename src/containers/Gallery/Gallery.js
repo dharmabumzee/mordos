@@ -1,6 +1,7 @@
 import React from "react";
 import { gallery } from "../../utils/icons";
 import { AppWindow } from "../../components/AppWindow";
+import { GalleryContent } from "./GalleryContent";
 
 export const Gallery = () => {
   return (
@@ -8,7 +9,7 @@ export const Gallery = () => {
       <AppWindow
         svg={gallery.svg}
         backgroundColor={gallery.backgroundColor}
-        content="Gallery"
+        content={<GalleryContent />}
         title="Gallery"
       />
     </>
