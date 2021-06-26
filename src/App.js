@@ -6,7 +6,7 @@ import { FourOFour } from "./components/FourOFour";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 function App() {
-  const [isAuthorized, setIsAuthorized] = useState(true);
+  const [isAuthorized, setIsAuthorized] = useState(false);
 
   return (
     <Router>

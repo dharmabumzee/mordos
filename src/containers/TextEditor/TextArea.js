@@ -6,7 +6,7 @@ import { TextBody } from "./TextBody";
 import { AppContext as TextEditorContext } from "../../context/AppContext";
 
 export const TextArea = ({ state, setState, id, setId }) => {
-  const { savedNotes, setSavedNotes, editMode, setEditMode } = useContext(
+  const { savedNotes, setSavedNotes, setEditMode } = useContext(
     TextEditorContext
   );
 
@@ -38,22 +38,13 @@ export const TextArea = ({ state, setState, id, setId }) => {
       title: "",
       text: "",
       id: id,
-      // setId(id + 1);
-      // setState({
-      //   title: "",
-      //   text: "",
-      //   id: id + 1,
     });
     setEditMode(false);
   };
 
-  console.log(state);
-
-  console.log("TextArea i EditMode: ", editMode);
-
   return (
     <>
-      <div className="flex flex-col w-6/12 px-4 bg-white rounded-r-3xl">
+      <div className="flex flex-col w-full px-4 bg-white md:w-6/12 rounded-r-3xl">
         <TextAreaHeadline />
         <Title handleOnChange={handleOnChange} title={state.title} />
         <div className="mt-6 mb-3 border rounded-xl bg-gray-50">

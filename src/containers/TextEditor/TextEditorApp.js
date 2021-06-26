@@ -6,8 +6,12 @@ import { AppContext as TextEditorContext } from "../../context/AppContext";
 
 import { ModuleIcon } from "./ModuleIcon";
 import { TextEditorState as getInitialState } from "./TextEditorState";
+import useWindowSize from "../../hooks/useWindowSize";
 
 export const TextEditorApp = () => {
+  const windowSize = useWindowSize();
+  const [screenSwitch, setScreenSwitch] = useState(false);
+
   const {
     initialStateSavedNotes,
     initialStateBookmarkedNotes,
@@ -19,9 +23,11 @@ export const TextEditorApp = () => {
   );
 
   const [file, setFile] = useState(null);
+  const [downloadAvailable, setDownloadAvailable] = useState(null);
   const fileToSave = (id) => {
     let note = savedNotes.filter((note) => note.id === id);
     setFile(note);
+    setDownloadAvailable(id);
   };
 
   const [savedNotes, setSavedNotes] = useState(initialStateSavedNotes);
@@ -42,6 +48,7 @@ export const TextEditorApp = () => {
   });
 
   const [editMode, setEditMode] = useState(false);
+  const [search, setSearch] = useState("");
 
   const editNote = (id) => {
     setEditMode(true);
@@ -87,12 +94,6 @@ export const TextEditorApp = () => {
     sortedListDesc = copyToDesc.sort((x, y) => y.date - x.date);
   }
 
-  // let copyToAsc = [...savedNotes];
-  // let copyToDesc = [...savedNotes];
-
-  // let sortedListAsc = copyToAsc.sort((x, y) => x.date - y.date);
-  // let sortedListDesc = copyToDesc.sort((x, y) => y.date - x.date);
-
   return (
     <>
       <TextEditorContext.Provider
@@ -110,9 +111,20 @@ export const TextEditorApp = () => {
           sortedListDesc,
           file,
           fileToSave,
+          downloadAvailable,
+          setDownloadAvailable,
+          search,
+          setSearch,
+          screenSwitch,
+          setScreenSwitch,
+          windowSize,
         }}
       >
-        <div className="flex w-full shadow-lg pte-height rounded-3xl">
+        <div
+          className={`flex w-full shadow-lg ${
+            windowSize.width < 768 ? "pte-height-mobile" : "pte-height"
+          } rounded-3xl`}
+        >
           <div className="flex flex-col w-2/12 bg-white rounded-l-3xl">
             <ModuleIcon />
             <NavBarIcons
@@ -122,19 +134,41 @@ export const TextEditorApp = () => {
               bookmarksLength={bookmarkedNotes.length}
             />
           </div>
-          <RenderLists
-            savedNotes={savedNotes}
-            bookmarkedNotes={bookmarkedNotes}
-            whatToList={whatToList}
-          />
-          <TextArea
-            state={state}
-            setState={setState}
-            savedNotes={savedNotes}
-            setSavedNotes={setSavedNotes}
-            id={id}
-            setId={setId}
-          />
+          {windowSize.width > 540 ? (
+            <>
+              <RenderLists
+                savedNotes={savedNotes}
+                bookmarkedNotes={bookmarkedNotes}
+                whatToList={whatToList}
+              />
+              <TextArea
+                state={state}
+                setState={setState}
+                savedNotes={savedNotes}
+                setSavedNotes={setSavedNotes}
+                id={id}
+                setId={setId}
+              />
+            </>
+          ) : (
+            <>
+              <div className="flex flex-col w-full ">
+                <TextArea
+                  state={state}
+                  setState={setState}
+                  savedNotes={savedNotes}
+                  setSavedNotes={setSavedNotes}
+                  id={id}
+                  setId={setId}
+                />
+                <RenderLists
+                  savedNotes={savedNotes}
+                  bookmarkedNotes={bookmarkedNotes}
+                  whatToList={whatToList}
+                />
+              </div>
+            </>
+          )}
         </div>
       </TextEditorContext.Provider>
     </>

@@ -10,7 +10,6 @@ export const SaveButton = ({ saveNotes, saveOnEditNote }) => {
       <button
         onClick={() => {
           editMode ? saveOnEditNote() : saveNotes();
-          // saveNotes();
           setWhatToList({
             all: true,
             bookmarks: false,

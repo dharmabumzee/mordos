@@ -1,6 +1,7 @@
 import React from "react";
 import { folder } from "../../utils/icons";
 import { AppWindow } from "../../components/AppWindow";
+import { FolderApp } from "./FolderApp";
 
 export const Folder = () => {
   return (
@@ -8,7 +9,7 @@ export const Folder = () => {
       <AppWindow
         svg={folder.svg}
         backgroundColor={folder.backgroundColor}
-        content="Folder"
+        content={<FolderApp />}
         title="Folder"
       />
     </>

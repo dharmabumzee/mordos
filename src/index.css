@@ -13,6 +13,10 @@
   height: calc(100vh - theme('spacing.32'));
 }
 
+.pte-height-mobile {
+  height: calc(100vh - theme('spacing.24'));
+}
+
 .camera-app-small-screens-height {
   height: calc(100vh - theme('spacing.32'));
 }

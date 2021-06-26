@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
+import { AppContext as LoginContext } from "../../context/AppContext";
 
 export const LoginOptions = () => {
+  const { toggleChecked, checked } = useContext(LoginContext);
+
   return (
     <div className="flex items-center justify-between">
       <div className="flex items-center">
         <input
+          onChange={toggleChecked}
+          defaultChecked={checked}
           id="remember_me"
           name="remember_me"
           type="checkbox"

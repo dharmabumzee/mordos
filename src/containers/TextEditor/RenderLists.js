@@ -1,12 +1,12 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { RenderNote } from "./RenderNote";
 import { InputSearch } from "../../components/InputSearch";
 import { formatTimestamp } from "../../utils/formatTimestamp";
-import { SortedList as useSortedLists } from "./SortedList";
 import { AppContext as TextEditorContext } from "../../context/AppContext";
 
 export const RenderLists = ({ savedNotes, bookmarkedNotes, whatToList }) => {
-  // const { sortedListAsc, sortedListDesc } = useSortedLists();
+  const [filteredList, setFilteredList] = useState(savedNotes);
+
   const { sortedListAsc, sortedListDesc } = useContext(TextEditorContext);
 
   const renderList = () => {
@@ -18,7 +18,7 @@ export const RenderLists = ({ savedNotes, bookmarkedNotes, whatToList }) => {
       ? renderCategory(sortedListDesc)
       : whatToList.listAsc === true
       ? renderCategory(sortedListAsc)
-      : renderCategory(savedNotes);
+      : renderCategory(filteredList);
   };
 
   const renderCategory = (category) => {
@@ -40,16 +40,27 @@ export const RenderLists = ({ savedNotes, bookmarkedNotes, whatToList }) => {
     );
   };
 
+  useEffect(() => {
+    setFilteredList(savedNotes);
+  }, [savedNotes]);
+
+  const passData = () =>
+    whatToList.bookmarks === true ? bookmarkedNotes : savedNotes;
+
   return (
     <>
-      <section className="flex flex-col w-4/12 h-full pt-3 overflow-y-scroll bg-gray-50">
+      <section className="flex flex-col w-11/12 h-full pt-3 mx-auto overflow-y-scroll sm:w-1/12 md:w-2/12 lg:w-3/12 xl:w-4/12 bg-gray-50">
+        {/* h-screen pt-3 md:overflow-y-scroll */}
         <label className="px-3">
-          <InputSearch />
+          <InputSearch
+            data={passData()}
+            filteredList={filteredList}
+            setFilteredList={setFilteredList}
+            whatToList={whatToList}
+          />
         </label>
         <ul className="mt-6">{renderList()}</ul>
       </section>
     </>
   );
 };
-
-// console.log(date.toLocaleDateString('en-GB'));

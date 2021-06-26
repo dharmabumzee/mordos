@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
+import { AppContext as LoginContext } from "../../context/AppContext";
 
-export const SignInButton = ({ history }) => {
+export const SignInButton = () => {
+  const { history, handleSubmit } = useContext(LoginContext);
   return (
     <div>
       <button
         onClick={() => {
+          handleSubmit();
           history.push("/");
         }}
         type="submit"

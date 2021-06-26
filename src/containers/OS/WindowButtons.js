@@ -1,6 +1,11 @@
 import React from "react";
 
-export const WindowButtons = ({ toggleModal, closeButtonRef }) => {
+export const WindowButtons = ({
+  toggleModal,
+  closeButtonRef,
+  isMax,
+  setIsMax,
+}) => {
   return (
     <div className="absolute flex flex-row left-6">
       <button
@@ -17,6 +22,7 @@ export const WindowButtons = ({ toggleModal, closeButtonRef }) => {
         aria-label="Restore Down"
       />
       <button
+        onClick={() => setIsMax(!isMax)}
         className="w-4 h-4 p-1 mr-5 text-white bg-green-500 rounded-full cursor-pointer hover:bg-green-600 focus:outline-none"
         aria-label="Minimize"
       />

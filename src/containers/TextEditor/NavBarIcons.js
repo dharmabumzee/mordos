@@ -8,7 +8,7 @@ import {
 } from "../../utils/icons";
 
 const iconMenuStyle =
-  "w-16 transition-all p-4 mb-4 text-gray-700 cursor-pointer rounded-2xl";
+  "w-10 md:w-16 transition-all p-2 md:p-4 mb-4 text-gray-700 cursor-pointer rounded-2xl";
 
 const activeStyle = "text-purple-900 bg-purple-100";
 const passiveStyle = "border hover:bg-blue-50";
@@ -21,7 +21,7 @@ export const NavBarIcons = ({
 }) => {
   return (
     <>
-      <nav className="relative flex flex-col items-center py-4">
+      <nav className="relative flex flex-col items-center px-8 py-10 lg:py-4 md:px-0 xl:py-4">
         <div
           onClick={() =>
             setWhatToList({
@@ -31,7 +31,7 @@ export const NavBarIcons = ({
               listAsc: false,
             })
           }
-          className={`relative w-16 p-4 mb-4 ${
+          className={`relative w-10 md:w-16 p-2 md:p-4 mb-4 ${
             whatToList.all ? activeStyle : passiveStyle
           } cursor-pointer rounded-2xl`}
         >
@@ -84,7 +84,7 @@ export const NavBarIcons = ({
               listAsc: false,
             })
           }
-          className={`relative mb-24 ${iconMenuStyle} ${
+          className={`relative mb-16 md:mb-24 ${iconMenuStyle} ${
             whatToList.bookmarks ? activeStyle : passiveStyle
           }`}
         >
@@ -98,10 +98,9 @@ export const NavBarIcons = ({
           </span>
         </div>
 
-        <div className="w-16 p-4 mb-4 text-gray-700 border cursor-pointer rounded-2xl">
+        <div className="w-10 p-2 mb-4 text-gray-700 border cursor-pointer md:w-16 md:p-4 rounded-2xl">
           {trashcanIconMenu}
         </div>
-        {/* <div className={iconMenuStyle}>{settingsIconMenu}</div> */}
       </nav>
     </>
   );

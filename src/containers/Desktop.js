@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { RSSReader } from "./RSSReader/RSSReader";
 import { TextEditor } from "./TextEditor/TextEditor";
 import { Folder } from "./Folder/Folder";
@@ -7,9 +7,12 @@ import { Gallery } from "./Gallery/Gallery";
 import { Browser } from "./Browser/Browser";
 import { AppContext } from "../context/AppContext";
 import { Redirect } from "react-router-dom";
+import { PhotosState as getInitialPhotos } from "./Camera/PhotosState";
 
 export const Desktop = ({ isAuthorized }) => {
-  const [photos, setPhotos] = useState([]);
+  const { localStoragePhotos } = getInitialPhotos();
+
+  const [photos, setPhotos] = useState(localStoragePhotos);
   const [closeWindow, setCloseWindow] = useState(false);
   const [minimizeWindow, setMinimizeWindow] = useState(false);
   const [fullscreenWindow, setFullscreenWindow] = useState(false);
@@ -19,7 +22,7 @@ export const Desktop = ({ isAuthorized }) => {
       {!isAuthorized ? (
         <Redirect to="/login" />
       ) : (
-        <div className="grid grid-cols-2 gap-6 p-12 place-items-center md:place-items-start md:grid-cols-1">
+        <div className="grid grid-cols-2 gap-6 p-12 transition-all place-items-center md:place-items-start md:grid-cols-1">
           <AppContext.Provider
             value={{
               photos,
@@ -34,7 +37,7 @@ export const Desktop = ({ isAuthorized }) => {
           >
             <RSSReader />
             <TextEditor />
-            <Folder />
+            {/* <Folder /> */}
             <Camera />
             <Gallery />
             <Browser />

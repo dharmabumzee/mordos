@@ -1,31 +1,55 @@
-import React from "react";
-import { LoginTitle } from "./LoginTitle";
-import { LoginOptions } from "./LoginOptions";
-import { SignInButton } from "./SignInButton";
-import { EmailInputField } from "./EmailInputField";
-import { PasswordInputField } from "./PasswordInputField";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
+import { User as getUser } from "./User";
+import { LoginForm } from "./LoginForm";
+import { AppContext as LoginContext } from "../../context/AppContext";
+import { LoginState as getInitialState } from "./LoginState";
 
-export const Login = () => {
+export const Login = ({ setIsAuthorized }) => {
   let history = useHistory();
+  const { initialStateLogin } = getInitialState();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("handle submit");
+  const user = getUser();
+  const [userLogin, setUserLogin] = useState({
+    email: initialStateLogin ? initialStateLogin.email : "",
+    password: initialStateLogin ? initialStateLogin.password : "",
+  });
+
+  const [checked, setChecked] = useState(initialStateLogin ? true : false);
+  const toggleChecked = () => {
+    setChecked(!checked);
   };
-  return (
-    <div className="relative flex items-center justify-center min-h-screen px-4 py-12 bg-no-repeat bg-cover bg-thistle sm:px-6 lg:px-8">
-      <div className="absolute inset-0 z-0 bg-black blur-2xl opacity-60"></div>
-      <div className="z-10 w-full max-w-md p-10 space-y-2 bg-white backdrop-saturate-50 backdrop-blur-md backdrop-filter backdrop-sepia rounded-xl">
-        <LoginTitle />
 
-        <form className="mt-8 space-y-6" onClick={handleSubmit}>
-          <EmailInputField />
-          <PasswordInputField />
-          <LoginOptions />
-          <SignInButton history={history} />
-        </form>
-      </div>
-    </div>
+  const handleOnChange = (e) => {
+    setUserLogin({ ...userLogin, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = () => {
+    const isMatch =
+      userLogin.email === user.userLogin.email &&
+      userLogin.password === user.userLogin.password;
+
+    if (isMatch) setIsAuthorized(true);
+    if (checked)
+      localStorage.setItem("rememberLogin", JSON.stringify(userLogin));
+  };
+
+  return (
+    <>
+      <LoginContext.Provider
+        value={{
+          history,
+          handleOnChange,
+          handleSubmit,
+          user,
+          userLogin,
+          setUserLogin,
+          checked,
+          toggleChecked,
+        }}
+      >
+        <LoginForm />
+      </LoginContext.Provider>
+    </>
   );
 };

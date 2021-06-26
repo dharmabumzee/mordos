@@ -1,9 +1,10 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useRef } from "react";
+import { Fragment, useRef, useState } from "react";
 import { WindowButtons } from "../containers/OS/WindowButtons";
 
 export default function Modal({ isOpen, toggleModal, title, content }) {
   let closeButtonRef = useRef(null);
+  const [isMax, setIsMax] = useState(false);
 
   return (
     <>
@@ -43,7 +44,11 @@ export default function Modal({ isOpen, toggleModal, title, content }) {
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <div className="inline-block w-full overflow-auto align-middle transition-all transform bg-white shadow-xl ext-left h-modal max-w-8xl rounded-2xl">
+              <div
+                className={`inline-block w-full overflow-auto align-middle transition-all transform bg-white ${
+                  !isMax ? "h-modal max-w-8xl" : "h-screen"
+                } shadow-xl rounded-2xl`}
+              >
                 <div className="sticky top-0 z-50 flex items-center justify-center w-full p-6 text-center border-gray-200 rounded-t-2xl">
                   <Dialog.Title
                     as="h3"
@@ -52,19 +57,11 @@ export default function Modal({ isOpen, toggleModal, title, content }) {
                     {title}
                   </Dialog.Title>
 
-                  {/* <div className="mt-4">
-                    <button
-                      ref={closeButtonRef}
-                      type="button"
-                      className="absolute inline-flex justify-center px-2 py-0.5 text-sm font-medium text-red-50 bg-closeButton border border-transparent rounded-md rounded-full left-5 top-6 hover:bg-closeButtonHover focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                      onClick={toggleModal}
-                    >
-                      X
-                    </button>
-                  </div> */}
                   <WindowButtons
                     closeButtonRef={closeButtonRef}
                     toggleModal={toggleModal}
+                    setIsMax={setIsMax}
+                    isMax={isMax}
                   />
                 </div>
                 <div className="relative">

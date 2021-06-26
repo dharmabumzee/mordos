@@ -1,8 +1,7 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import {
   createIcon,
   deleteIcon,
-  downloadIcon,
   bookmarkIcon,
   bookmarkIconFilled,
 } from "../../utils/icons";
@@ -18,21 +17,14 @@ export const NoteIcons = ({ id }) => {
     deleteNote,
     bookmarkNote,
     bookmarkedNotes,
-    savedNotes,
     file,
-    fileToSave,
+    setSearch,
+    setWhatToList,
   } = useContext(TextEditorContext);
 
-  // const [file, setFile] = useState(null);
-
   const isItBookmarked = (id) => {
-    return bookmarkedNotes.some((x) => x.id === id);
+    return bookmarkedNotes.some((note) => note.id === id);
   };
-
-  // const fileToSave = (id) => {
-  //   let note = savedNotes.filter((note) => note.id === id);
-  //   setFile(note);
-  // };
 
   return (
     <>
@@ -40,11 +32,23 @@ export const NoteIcons = ({ id }) => {
         <li onClick={() => editNote(id)} className={styles}>
           {createIcon}
         </li>
-        <li onClick={() => fileToSave(id)} className={styles}>
-          {downloadIcon}
+        <li className={`${styles} `}>
+          <SaveFile file={file} id={id} />
         </li>
-        {/* <li className={styles} onClick={() => fileToSave(id)}></li> */}
-        <li onClick={() => deleteNote(id)} className={styles}>
+
+        <li
+          onClick={() => {
+            deleteNote(id);
+            setSearch("");
+            setWhatToList({
+              all: true,
+              bookmarks: false,
+              listDesc: false,
+              listAsc: false,
+            });
+          }}
+          className={styles}
+        >
           {deleteIcon}
         </li>
         <li
@@ -52,7 +56,6 @@ export const NoteIcons = ({ id }) => {
             bookmarkNote(id);
           }}
           className={`${styles} `}
-          // ${icon ? "text-indigo-600" : ""}
         >
           {isItBookmarked(id) ? (
             <span className="text-indigo-600 current-fill">
@@ -62,7 +65,6 @@ export const NoteIcons = ({ id }) => {
             bookmarkIcon
           )}
         </li>
-        <SaveFile file={file} />
       </ul>
     </>
   );

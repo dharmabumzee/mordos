@@ -63,6 +63,8 @@ module.exports = {
       transitionProperty: ["hover", "focus"],
       scale: ["active", "group-hover"],
       display: ["hover", "focus", "group-hover"],
+      backgroundColor: ["active"],
+      transform: ["hover", "focus"],
     },
   },
   plugins: [],

@@ -1,13 +1,18 @@
-import React, { useEffect, useState } from "react";
-import { downloadIcon } from "../../utils/icons";
+import React, { useEffect, useState, useContext } from "react";
+import { downloadIcon, documentDownload } from "../../utils/icons";
+import { AppContext as TextEditorContext } from "../../context/AppContext";
 
-export const SaveFile = ({ file }) => {
+export const SaveFile = ({ file, id }) => {
+  const { downloadAvailable, setDownloadAvailable, fileToSave } = useContext(
+    TextEditorContext
+  );
+
   const [downloadLink, setDownloadLink] = useState("");
 
-  const makeTextFile = async () => {
+  const makeTextFile = () => {
     let data;
     if (file) {
-      data = await new Blob([file[0].text], {
+      data = new Blob([file[0].text], {
         type: "text/plain",
       });
     }
@@ -24,12 +29,21 @@ export const SaveFile = ({ file }) => {
 
   return (
     <>
-      {file && file.length && (
-        <a download={`${file[0].title}.txt`} href={downloadLink}>
-          download
+      {downloadAvailable !== id ? (
+        <div onClick={() => fileToSave(id)} className={``}>
+          {downloadIcon}
+        </div>
+      ) : (
+        <a
+          download={`${file[0].title}.txt`}
+          href={downloadLink}
+          className={`${file[0].id === id ? "relative" : "hidden"}`}
+          onClick={() => setDownloadAvailable(null)}
+        >
+          {documentDownload}
+          <span className="absolute -right-2">ready</span>
         </a>
       )}
     </>
   );
-  // return { downloadLink };
 };

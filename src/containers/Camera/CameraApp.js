@@ -14,9 +14,12 @@ import { AcceptAndCloseButtons } from "./AcceptAndCloseButtons";
 import { SizeAdjustButton } from "./SizeAdjustButton";
 import { CameraModuleIcon } from "./CameraModuleIcon";
 import { Canvas } from "./Canvas";
+import { cameraPlaceholder } from "../../utils/icons";
 
 export const CameraApp = () => {
   const windowSize = useWindowSize();
+  const [isLoading, setIsLoading] = useState(true);
+
   const { photos, setPhotos, closeWindow } = useContext(AppContext);
   const [cameraStream, setCameraStream] = useState(null);
 
@@ -44,6 +47,13 @@ export const CameraApp = () => {
         video.srcObject = stream;
         setCameraStream(video);
         video.play();
+        return new Promise(
+          (resolve) =>
+            (video.onplaying = resolve) &&
+            setTimeout(() => {
+              setIsLoading(false);
+            }, 1000)
+        );
       })
       .catch((err) => console.error(err));
   };
@@ -86,6 +96,10 @@ export const CameraApp = () => {
   }, []);
 
   useEffect(() => {
+    localStorage.setItem("photos", JSON.stringify(photos));
+  }, [photos]);
+
+  useEffect(() => {
     return !closeWindow && cameraStream.srcObject.getTracks()[0].stop();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [closeWindow]);
@@ -107,22 +121,38 @@ export const CameraApp = () => {
       !clicked &&
       setTimeout(() => {
         setShow(!show);
-      }, 1000);
+      }, 5000);
   };
 
   return (
     <div
-      className={`w-full m-auto relative flex items-stretch overflow-y-hidden  flex-col justify-between flex-grow overflow-x-hidden ${
+      className={`w-full m-auto relative flex items-stretch overflow-y-hidden  flex-col justify-between transition-all flex-grow overflow-x-hidden ${
         windowSize.height < 360 ? "h-screen" : "photo-app"
       } `}
     >
       <div className="flex h-full mx-auto">
-        <div className="relative flex flex-col items-center justify-start w-full camera-height">
+        <div className="relative flex flex-col items-center justify-start w-full space-y-4 transition-all camera-height">
+          <div
+            className={`${
+              isLoading
+                ? "absolute z-50 w-screen h-screen transition-all transition-transform ease-in-out bg-gray-900"
+                : "hidden"
+            }`}
+          >
+            <div className="flex flex-col items-center justify-center w-1/2 mx-auto space-y-4 text-gray-800 transition-all bg-gray-900 lg:mt-0 animate-pulse animate-ping opacity-40">
+              {cameraPlaceholder.svg}
+              <span className="text-6xl font-black 3xl:text-9xl">
+                CAMERA APP
+              </span>
+            </div>
+          </div>
           <video
             ref={videoRef}
-            className="object-contain w-full h-auto max-w-full mb-12 xl:w-5/6 3xl:w-full lg:mb-0 "
+            className="object-contain w-full h-auto max-w-full mb-12 transition-all xl:w-5/6 3xl:w-full lg:mb-0 "
           ></video>
-          <TakePhotoButton takePhoto={takePhoto} hasPhoto={hasPhoto} />
+          {isLoading ? null : (
+            <TakePhotoButton takePhoto={takePhoto} hasPhoto={hasPhoto} />
+          )}
         </div>
 
         <Canvas hasPhoto={hasPhoto} photoRef={photoRef}>
