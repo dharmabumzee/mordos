@@ -15,8 +15,6 @@ export const InputSearch = ({ data, setFilteredList }) => {
     TextEditorContext
   );
 
-  console.log(data);
-
   const handleOnChange = (e) => {
     const searchTerm = e.target.value;
     setSearch(searchTerm);

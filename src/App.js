@@ -4,9 +4,13 @@ import { Title } from "./components/Title";
 import { Login } from "./containers/Login/Login";
 import { FourOFour } from "./components/FourOFour";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { setDefaultUser } from "./utils/setDefaultUser";
+import { Logout } from "./containers/Logout/Logout";
 
 function App() {
   const [isAuthorized, setIsAuthorized] = useState(false);
+
+  setDefaultUser();
 
   return (
     <Router>
@@ -28,6 +32,7 @@ function App() {
         </Switch>
       </div>
       {isAuthorized && <Title />}
+      {isAuthorized && <Logout setIsAuthorized={setIsAuthorized} />}
     </Router>
   );
 }

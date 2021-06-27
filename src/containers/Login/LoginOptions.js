@@ -13,7 +13,7 @@ export const LoginOptions = () => {
           id="remember_me"
           name="remember_me"
           type="checkbox"
-          className="w-4 h-4 bg-indigo-500 border-gray-300 rounded focus:ring-indigo-400"
+          className="w-4 h-4 bg-indigo-500 border-gray-300 rounded cursor-pointer focus:ring-indigo-400"
         />
         <label className="block ml-2 text-sm text-gray-900">Remember me</label>
       </div>

@@ -6,15 +6,15 @@ import axios from "axios";
 import { BrowserState as getInitialState } from "./BrowserState";
 
 export const BrowserApp = () => {
-  const extractUrl = /.*href="(.*)".*/; // .replace
-  const extractContent = /<a[^>]*>.*<\/a>/gm; // .replace , ""
-
+  const windowSize = useWindowSize();
   const { initialStateSearchHistory } = getInitialState();
 
+  const extractContent = /<a[^>]*>.*<\/a>/gm; // .replace , ""
   const extractTitle = /<a [^>]+>([^<]+)<\/a>/; // .match
-  const windowSize = useWindowSize();
+
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
+
   const [searchHistory, setSearchHistory] = useState(initialStateSearchHistory);
   const [msg, setMsg] = useState("");
 
@@ -26,9 +26,14 @@ export const BrowserApp = () => {
     setQuery("");
   };
 
-  const handleOnSubmit = (e, query) => {
+  const handleOnSubmit = (e) => {
     e.preventDefault();
     fetchData(query);
+  };
+
+  const updateSearchHistory = () => {
+    let searchShallowCopy = searchHistory.slice(1);
+    setSearchHistory([...new Set([...searchShallowCopy, query])]);
   };
 
   const fetchData = async (query) => {
@@ -37,7 +42,9 @@ export const BrowserApp = () => {
     );
 
     setResults(response.data.RelatedTopics);
-    setSearchHistory([...new Set([...searchHistory, query])]);
+    searchHistory.length === 9
+      ? updateSearchHistory()
+      : setSearchHistory([...new Set([...searchHistory, query])]);
   };
 
   useEffect(() => {
@@ -47,25 +54,56 @@ export const BrowserApp = () => {
   let toMap = results.length && results.filter((x) => x.Result);
 
   const toggleLeft = (index) => {
-    return index === 0
-      ? 44
-      : index === 1
-      ? 72
-      : index === 2
-      ? 96
-      : index === 3
-      ? 100
-      : null;
+    if (windowSize.width >= 1200) {
+      return index === 0
+        ? 48
+        : index === 1
+        ? 72
+        : index === 2
+        ? 96
+        : index === 3
+        ? 120
+        : index === 4
+        ? 144
+        : index === 5
+        ? 168
+        : index === 6
+        ? 192
+        : index === 7
+        ? 216
+        : index === 8
+        ? 240
+        : null;
+    }
+    if (windowSize.width < 1200) {
+      return index === 0
+        ? 40
+        : index === 1
+        ? 60
+        : index === 2
+        ? 80
+        : index === 3
+        ? 101
+        : index === 4
+        ? 120
+        : index === 5
+        ? 140
+        : index === 6
+        ? 160
+        : index === 7
+        ? 180
+        : index === 8
+        ? 200
+        : null;
+    }
   };
 
   return (
     <>
       <div className="relative ">
         <div
-          className={`px-4 mx-auto ${
-            windowSize.width > 768
-              ? "absolute z-50 w-1/2 -right-12 -top-16"
-              : ""
+          className={` mx-auto ${
+            windowSize.width > 768 ? "absolute z-50 w-1/2 right-8 -top-16" : ""
           } sm:px-8 lg:px-16 xl:px-20`}
         >
           <form onSubmit={handleOnSubmit}>
@@ -147,17 +185,13 @@ export const BrowserApp = () => {
           <button
             key={index}
             onClick={() => fetchData(x)}
-            className={`absolute z-10 w-32 h-12 transition-all ease-out transform bg-gray-300 hover:bg-gray-200 hover:border-gray-200 border-2 border-gray-300 shadow-md hover:-translate-y-1 hover:shadow-2xl hover:scale-110 left-${toggleLeft(
+            className={`absolute overflow-hidden z-10 w-32 h-12 transition-all ease-out transform bg-gray-300 hover:bg-gray-200 hover:border-gray-200 border-2 border-gray-300 shadow-md hover:-translate-y-1 focus:outline-none hover:shadow-2xl hover:scale-110 left-${toggleLeft(
               index
             )} rounded-t-xl top-4`}
           >
             {x}
           </button>
         ))}
-        {/* <button className="absolute z-10 w-32 h-12 transition-all ease-out transform bg-gray-300 border-2 border-gray-300 shadow-md hover:-translate-y-1 hover:shadow-2xl hover:scale-110 left-72 rounded-t-xl top-4"></button>
-        <button className="absolute z-10 w-32 h-12 transition-all ease-out transform bg-gray-300 border-2 border-gray-300 shadow-md hover:-translate-y-1 hover:shadow-2xl hover:scale-110 left-96 rounded-t-xl top-4"></button>
-        <button className="absolute z-10 w-32 h-12 transition-all ease-out transform bg-gray-300 border-2 border-gray-300 shadow-md hover:-translate-y-1 hover:shadow-2xl hover:scale-110 left-100 rounded-t-xl top-4"></button>
-        <button className="absolute z-10 w-32 h-12 transition-all ease-out transform bg-gray-300 border-2 border-gray-300 shadow-md hover:-translate-y-1 hover:shadow-2xl hover:scale-110 right-44 rounded-t-xl top-4"></button> */}
 
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -197,7 +231,7 @@ export const BrowserApp = () => {
         </svg>
       </div>
       <div className="absolute left-0 z-40 w-full h-screen bg-white inset-y-1/5" />
-      <div className="absolute left-0 z-40 w-2/12 h-screen bg-orange-50 inset-y-1/5" />
+      {/* <div className="absolute left-0 z-40 w-2/12 h-screen bg-orange-50 inset-y-1/5" /> */}
 
       <div
         id="results"
@@ -217,18 +251,20 @@ export const BrowserApp = () => {
             console.log(result.FirstURL);
             return (
               <React.Fragment key={index}>
-                <div className="p-12 mx-auto space-y-2 transition-all border-2 cursor-pointer hover:bg-teal-50 lg:w-1/3 rounded-xl hover:rounded-2xl border-teal-50 hover:border-0 hover:shadow-xl">
-                  <div className="font-semibold text-teal-600 ">
-                    {result.Result && result.Result.match(extractTitle)[1]}
+                <a href={result.FirstURL} alt="url as a search results">
+                  <div className="p-12 mx-auto space-y-2 transition-all border-2 cursor-pointer hover:bg-teal-50 lg:w-1/3 rounded-xl hover:rounded-2xl border-teal-50 hover:border-0 hover:shadow-xl">
+                    <div className="font-semibold text-teal-600 ">
+                      {result.Result && result.Result.match(extractTitle)[1]}
+                    </div>
+
+                    <p className="font-light content-content">
+                      {result.Result &&
+                        result.Result.replace(extractContent, "")}
+                    </p>
+
+                    <div>{result.Rtext}</div>
                   </div>
-                  <a href={result.FirstURL}></a>
-
-                  <p className="font-light content-content">
-                    {result.Result && result.Result.replace(extractContent, "")}
-                  </p>
-
-                  <div>{result.Rtext}</div>
-                </div>
+                </a>
               </React.Fragment>
             );
           })}

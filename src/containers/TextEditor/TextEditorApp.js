@@ -16,6 +16,7 @@ export const TextEditorApp = () => {
     initialStateSavedNotes,
     initialStateBookmarkedNotes,
   } = getInitialState();
+
   const [id, setId] = useState(
     initialStateSavedNotes.length > 1
       ? initialStateSavedNotes[initialStateSavedNotes.length - 1].id + 1
@@ -24,6 +25,7 @@ export const TextEditorApp = () => {
 
   const [file, setFile] = useState(null);
   const [downloadAvailable, setDownloadAvailable] = useState(null);
+
   const fileToSave = (id) => {
     let note = savedNotes.filter((note) => note.id === id);
     setFile(note);
@@ -59,7 +61,7 @@ export const TextEditorApp = () => {
           title: note.title,
           text: note.text,
           id: note.id,
-          timestamp: note.timestamp,
+          date: note.timestamp,
         })
     );
   };
@@ -77,6 +79,21 @@ export const TextEditorApp = () => {
       : setBookmarkedNotes([...new Set([...bookmarkedNotes, bookmarkedNote])]);
   };
 
+  const deleteAllNotes = () => {
+    setSavedNotes([]);
+    setBookmarkedNotes([]);
+  };
+
+  let sortedListAsc;
+  let sortedListDesc;
+
+  if (savedNotes && savedNotes.length) {
+    let copyToAsc = [...savedNotes];
+    let copyToDesc = [...savedNotes];
+    sortedListAsc = copyToAsc.sort((x, y) => x.date - y.date);
+    sortedListDesc = copyToDesc.sort((x, y) => y.date - x.date);
+  }
+
   useEffect(() => {
     localStorage.setItem("savedNotes", JSON.stringify(savedNotes));
   }, [savedNotes]);
@@ -85,14 +102,7 @@ export const TextEditorApp = () => {
     localStorage.setItem("bookmarkedNotes", JSON.stringify(bookmarkedNotes));
   }, [bookmarkedNotes]);
 
-  let sortedListAsc;
-  let sortedListDesc;
-  if (savedNotes && savedNotes.length) {
-    let copyToAsc = [...savedNotes];
-    let copyToDesc = [...savedNotes];
-    sortedListAsc = copyToAsc.sort((x, y) => x.date - y.date);
-    sortedListDesc = copyToDesc.sort((x, y) => y.date - x.date);
-  }
+  console.log(savedNotes);
 
   return (
     <>
@@ -118,12 +128,15 @@ export const TextEditorApp = () => {
           screenSwitch,
           setScreenSwitch,
           windowSize,
+          state,
+          setState,
+          id,
         }}
       >
         <div
-          className={`flex w-full shadow-lg ${
+          className={`rounded-3xl flex w-full shadow-lg ${
             windowSize.width < 768 ? "pte-height-mobile" : "pte-height"
-          } rounded-3xl`}
+          }`}
         >
           <div className="flex flex-col w-2/12 bg-white rounded-l-3xl">
             <ModuleIcon />
@@ -132,6 +145,7 @@ export const TextEditorApp = () => {
               whatToList={whatToList}
               savedNotesLength={savedNotes.length}
               bookmarksLength={bookmarkedNotes.length}
+              deleteAllNotes={deleteAllNotes}
             />
           </div>
           {windowSize.width > 540 ? (

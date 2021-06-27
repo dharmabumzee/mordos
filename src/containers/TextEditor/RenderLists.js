@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { RenderNote } from "./RenderNote";
 import { InputSearch } from "../../components/InputSearch";
-import { formatTimestamp } from "../../utils/formatTimestamp";
+import { formatDate } from "../../utils/formatTimestamp";
 import { AppContext as TextEditorContext } from "../../context/AppContext";
 
 export const RenderLists = ({ savedNotes, bookmarkedNotes, whatToList }) => {
@@ -31,7 +31,7 @@ export const RenderLists = ({ savedNotes, bookmarkedNotes, whatToList }) => {
             <RenderNote
               id={id}
               title={title}
-              date={formatTimestamp(date)}
+              date={formatDate(date)}
               excerpt={text}
             />
           </React.Fragment>

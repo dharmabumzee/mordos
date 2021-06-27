@@ -26,14 +26,15 @@ export const TextArea = ({ state, setState, id, setId }) => {
   };
 
   const saveOnEditNote = () => {
+    let postToEdit = savedNotes.find((note) => note.id === state.id);
     let filteredNotes = savedNotes.filter((note) => note.id !== state.id);
-
     setSavedNotes(filteredNotes);
-    console.log(savedNotes);
+
     setSavedNotes((prevState) => [
       ...prevState,
-      { ...state, date: Date.now() },
+      { ...state, date: postToEdit.date, edit: Date.now() },
     ]);
+
     setState({
       title: "",
       text: "",

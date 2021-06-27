@@ -1,6 +1,8 @@
 export const User = () => {
   const localStorageUserLogin = localStorage.getItem("user");
-  const userLogin = JSON.parse(localStorageUserLogin);
+  const userLogin = localStorageUserLogin
+    ? JSON.parse(localStorageUserLogin)
+    : [];
 
   return { userLogin };
 };

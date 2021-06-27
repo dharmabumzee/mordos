@@ -1,9 +1,9 @@
 import React from "react";
 import {
-  createNote,
-  saveNote,
-  deleteNote,
-  downloadNote,
+  createIcon,
+  saveIcon,
+  deleteIcon,
+  downloadIcon,
 } from "../../utils/icons";
 import { Icon } from "../../components/Icon";
 
@@ -13,22 +13,22 @@ export const TextEditorIconMenu = () => {
   return (
     <div className="sticky top-0 z-40 flex items-center px-2 py-1 left-12 justify-evenly">
       <Icon
-        svg={createNote}
+        svg={createIcon}
         onClick={() => console.log("clicked")}
         styles={styles}
       />
       <Icon
-        svg={saveNote}
+        svg={saveIcon}
         onClick={() => console.log("clicked")}
         styles={styles}
       />
       <Icon
-        svg={downloadNote}
+        svg={downloadIcon}
         onClick={() => console.log("clicked")}
         styles={styles}
       />
       <Icon
-        svg={deleteNote}
+        svg={deleteIcon}
         onClick={() => console.log("clicked")}
         styles={styles}
       />

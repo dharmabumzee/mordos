@@ -14,7 +14,7 @@ export const PasswordInputField = () => {
         type="text"
         name="password"
         placeholder="Enter your password"
-        value={userLogin.password}
+        value={"*".repeat(userLogin.password.length)}
       />
     </div>
   );

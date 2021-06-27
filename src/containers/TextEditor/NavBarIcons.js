@@ -18,6 +18,7 @@ export const NavBarIcons = ({
   whatToList,
   savedNotesLength,
   bookmarksLength,
+  deleteAllNotes,
 }) => {
   return (
     <>
@@ -98,7 +99,18 @@ export const NavBarIcons = ({
           </span>
         </div>
 
-        <div className="w-10 p-2 mb-4 text-gray-700 border cursor-pointer md:w-16 md:p-4 rounded-2xl">
+        <div
+          onClick={() => {
+            deleteAllNotes();
+            setWhatToList({
+              all: true,
+              bookmarks: false,
+              listDesc: false,
+              listAsc: false,
+            });
+          }}
+          className="w-10 p-2 mb-4 text-gray-700 border cursor-pointer hover:bg-blue-50 md:w-16 md:p-4 rounded-2xl"
+        >
           {trashcanIconMenu}
         </div>
       </nav>

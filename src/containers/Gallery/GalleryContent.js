@@ -1,7 +1,10 @@
 import React, { useState, useContext } from "react";
-import { gallery } from "../../utils/iconsThin";
+import { gallery, deleteImage, shareIcon } from "../../utils/iconsThin";
 import { AppContext } from "../../context/AppContext";
 import { GalleryFetched as galleryFetched } from "./GalleryFetched";
+
+const cardStyles =
+  "transition-all block transform cursor-pointer rounded-2xl hover:shadow-3xl hover:border group-hover:scale-101";
 
 export const GalleryContent = () => {
   const { photos } = useContext(AppContext);
@@ -10,6 +13,14 @@ export const GalleryContent = () => {
   const [filterPhotosBy, setFilterPhotosBy] = useState("All");
 
   let myPhotos = photos.map((photo, index) => ({ photo, id: index + 1 }));
+
+  const deletePhoto = (id) => {
+    console.log(id);
+  };
+
+  const sharePhoto = (id) => {
+    console.log(id);
+  };
 
   return (
     <>
@@ -99,27 +110,36 @@ export const GalleryContent = () => {
 
         <div className="my-4"></div>
         <div className="">
-          <ul className="grid grid-cols-1 gap-2 my-3 sm:grid-cols-2 lg:grid-cols-3">
+          <ul className="relative grid grid-cols-1 gap-4 my-3 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
             {(filterPhotosBy === "Mine" || filterPhotosBy === "All") &&
               myPhotos.map(({ photo, id }) => {
                 return (
                   // add masonry-ish grid instead flex
-                  <li className="flex justify-center" key={id}>
+                  <div
+                    className="relative flex justify-center w-full h-full group"
+                    key={id}
+                  >
                     <img
-                      className="rounded-md "
+                      className={cardStyles}
                       src={photo}
                       alt=""
                       loading="lazy"
                     />
-                  </li>
+                    <span onClick={() => deletePhoto(id)}>{deleteImage}</span>
+                    <span onClick={() => sharePhoto(id)}>{shareIcon}</span>
+                  </div>
                 );
               })}
             {(filterPhotosBy === "Fetch'd" || filterPhotosBy === "All") &&
               fetchedPhotos.map(({ url, id }) => {
                 return (
-                  <li className="" key={id}>
-                    <img className="rounded-md" src={url} alt="" />
-                  </li>
+                  <div
+                    className="relative flex justify-center w-full h-full group"
+                    key={id}
+                  >
+                    <img className={cardStyles} src={url} alt="" />
+                    <span onClick={() => deletePhoto(id)}>{deleteImage}</span>
+                  </div>
                 );
               })}
           </ul>

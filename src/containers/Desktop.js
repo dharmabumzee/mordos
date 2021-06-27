@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { RSSReader } from "./RSSReader/RSSReader";
 import { TextEditor } from "./TextEditor/TextEditor";
-import { Folder } from "./Folder/Folder";
+// import { Folder } from "./Folder/Folder";
 import { Camera } from "./Camera/Camera";
 import { Gallery } from "./Gallery/Gallery";
 import { Browser } from "./Browser/Browser";
 import { AppContext } from "../context/AppContext";
 import { Redirect } from "react-router-dom";
 import { PhotosState as getInitialPhotos } from "./Camera/PhotosState";
+import { Logout } from "./Logout/Logout";
 
-export const Desktop = ({ isAuthorized }) => {
+export const Desktop = ({ isAuthorized, setIsAuthorized }) => {
   const { localStoragePhotos } = getInitialPhotos();
 
   const [photos, setPhotos] = useState(localStoragePhotos);
@@ -35,8 +36,8 @@ export const Desktop = ({ isAuthorized }) => {
               setFullscreenWindow,
             }}
           >
-            <RSSReader />
             <TextEditor />
+            <RSSReader />
             {/* <Folder /> */}
             <Camera />
             <Gallery />
