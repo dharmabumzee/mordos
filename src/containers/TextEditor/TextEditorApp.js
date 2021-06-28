@@ -109,11 +109,6 @@ export const TextEditorApp = () => {
     localStorage.setItem("bookmarkedNotes", JSON.stringify(bookmarkedNotes));
   }, [bookmarkedNotes]);
 
-  // console.log(savedNotes);
-  // console.log("id: ", id);
-  // console.log("bookmarked: ", bookmarkedNotes);
-  // console.log(state);
-
   return (
     <>
       <TextEditorContext.Provider

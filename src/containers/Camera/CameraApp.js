@@ -40,7 +40,7 @@ export const CameraApp = () => {
   const getVideo = async () => {
     await navigator.mediaDevices
       .getUserMedia({
-        video: { width: 1920, height: 1080 },
+        video: { width: 1280, height: 720 },
       })
       .then((stream) => {
         let video = videoRef.current;
@@ -131,7 +131,7 @@ export const CameraApp = () => {
       } `}
     >
       <div className="flex h-full mx-auto">
-        <div className="relative flex flex-col items-center justify-start w-full space-y-4 transition-all camera-height">
+        <div className="relative flex flex-col items-center justify-around w-full h-screen space-y-4 transition-all camera-height">
           <div
             className={`${
               isLoading
@@ -139,7 +139,7 @@ export const CameraApp = () => {
                 : "hidden"
             }`}
           >
-            <div className="flex flex-col items-center justify-center w-1/2 mx-auto space-y-4 text-gray-800 transition-all bg-gray-900 lg:mt-0 animate-pulse animate-ping opacity-40">
+            <div className="flex flex-col items-center justify-center w-1/2 h-full pb-0 mx-auto mb-0 space-y-4 text-gray-800 transition-all bg-gray-900 lg:mt-0 animate-pulse animate-ping opacity-40">
               {cameraPlaceholder.svg}
               <span className="text-6xl font-black 3xl:text-9xl">
                 CAMERA APP
@@ -148,10 +148,15 @@ export const CameraApp = () => {
           </div>
           <video
             ref={videoRef}
-            className="object-contain w-full h-auto max-w-full mb-12 transition-all xl:w-5/6 3xl:w-full lg:mb-0 "
+            className="object-contain w-full h-auto max-w-full mb-12 transition-all shadow-inner rounded-3xl xl:w-5/6 3xl:w-full lg:mb-0 "
           ></video>
+          <div className="hidden h-full bg-white lg:flex" />
           {isLoading ? null : (
-            <TakePhotoButton takePhoto={takePhoto} hasPhoto={hasPhoto} />
+            <TakePhotoButton
+              takePhoto={takePhoto}
+              hasPhoto={hasPhoto}
+              windowSize={windowSize}
+            />
           )}
         </div>
 

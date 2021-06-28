@@ -5,8 +5,6 @@ import { AppContext as TextEditorContext } from "../../context/AppContext";
 export const RenderNote = ({ id, title, date, excerpt }) => {
   const { windowSize } = useContext(TextEditorContext);
 
-  // const breakpoint = 24;
-
   const renderExcerpt = (excerpt, breakpoint) =>
     excerpt.length > breakpoint
       ? excerpt.substring(0, breakpoint) + "..."

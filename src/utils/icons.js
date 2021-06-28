@@ -74,7 +74,7 @@ export const cameraPlaceholder = {
   svg: (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      className="flex m-auto justfy-center"
+      className="flex justfy-center"
       fill="none"
       viewBox="0 0 24 24"
       stroke="currentColor"

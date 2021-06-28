@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import useWindowSize from "../../hooks/useWindowSize";
 import { CloseIcon } from "../../components/CloseIcon";
-// import { BrowserAPI } from "./BrowserAPI";
 import axios from "axios";
 import { BrowserState as getInitialState } from "./BrowserState";
 
@@ -16,7 +15,6 @@ export const BrowserApp = () => {
   const [results, setResults] = useState([]);
 
   const [searchHistory, setSearchHistory] = useState(initialStateSearchHistory);
-  const [msg, setMsg] = useState("");
 
   const handleOnChange = (e) => {
     setQuery(e.target.value);
@@ -37,20 +35,15 @@ export const BrowserApp = () => {
   };
 
   const setSearchHistoryCount = () => {
-    if (windowSize.width <= 768) {
-      return searchHistory.length === 5
-        ? updateSearchHistory()
-        : setSearchHistory([...new Set([...searchHistory.slice(0, 6), query])]);
-    } else if (windowSize.width > 1200) {
-      return searchHistory.length === 8
-        ? updateSearchHistory()
-        : setSearchHistory([...new Set([...searchHistory, query])]);
-    }
+    return searchHistory.length === 5
+      ? updateSearchHistory()
+      : setSearchHistory([...new Set([...searchHistory, query])]);
   };
 
   const fetchData = async (query) => {
     let response = await axios.get(
-      `https://cors-anywhere.herokuapp.com/api.duckduckgo.com/?q=${query}&format=json&pretty=1`
+      // `https://cors-anywhere.herokuapp.com/api.duckduckgo.com/?q=${query}&format=json&pretty=1`
+      `https://cors.bridged.cc/api.duckduckgo.com/?q=${query}&format=json&pretty=1`
     );
 
     setResults(response.data.RelatedTopics);
@@ -148,12 +141,11 @@ export const BrowserApp = () => {
           </form>
         </div>
       </div>
-      {/* <BrowserAPI query={query} setResults={setResults} /> */}
 
       <div className="relative w-full h-16 mt-5 space-x-0 bg-gray-100 border border-gray-300">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="absolute w-6 h-6 rounded-full cursor-pointer left-1.5 md:left-8 top-5 hover:bg-gray-200"
+          className="absolute w-6 h-6 rounded-full cursor-pointer left-4 md:left-8 top-5 hover:bg-gray-200"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -167,7 +159,7 @@ export const BrowserApp = () => {
         </svg>
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="absolute w-6 h-6 rounded-full cursor-pointer left-8 md:left-20 top-5 hover:bg-gray-200"
+          className="absolute w-6 h-6 rounded-full cursor-pointer left-12 md:left-20 top-5 hover:bg-gray-200"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -181,7 +173,7 @@ export const BrowserApp = () => {
         </svg>
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="absolute w-6 h-6 rounded-full cursor-pointer top-5 left-16 md:left-32 hover:bg-gray-200"
+          className="absolute w-6 h-6 rounded-full cursor-pointer top-5 left-20 md:left-32 hover:bg-gray-200"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -208,7 +200,7 @@ export const BrowserApp = () => {
 
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="absolute w-6 h-6 rounded-full cursor-pointer top-5 right-16 md:right-32 hover:bg-gray-200"
+          className="absolute w-6 h-6 rounded-full cursor-pointer top-5 right-20 md:right-32 hover:bg-gray-200"
           viewBox="0 0 20 20"
           fill="currentColor"
         >
@@ -220,7 +212,7 @@ export const BrowserApp = () => {
         </svg>
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="absolute w-6 h-6 rounded-full cursor-pointer top-5 right-8 md:right-20 hover:bg-gray-200"
+          className="absolute w-6 h-6 rounded-full cursor-pointer top-5 right-12 md:right-20 hover:bg-gray-200"
           viewBox="0 0 20 20"
           fill="currentColor"
         >
@@ -232,7 +224,7 @@ export const BrowserApp = () => {
         </svg>
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="absolute w-6 h-6 rounded-full cursor-pointer hover:bg-gray-200 top-5 right-1.5 md:right-8"
+          className="absolute w-6 h-6 rounded-full cursor-pointer hover:bg-gray-200 top-5 right-4 md:right-8"
           viewBox="0 0 20 20"
           fill="currentColor"
         >
@@ -258,7 +250,7 @@ export const BrowserApp = () => {
           </p>
         </div>
 
-        {!toMap.length && (
+        {!toMap.length && searchHistory.length > 0 && (
           <div className="p-12 font-light text-gray-500 transition-all">
             No search results. Try again
           </div>
@@ -266,7 +258,6 @@ export const BrowserApp = () => {
 
         {toMap.length &&
           toMap.map((result, index) => {
-            console.log(result.FirstURL);
             return (
               <React.Fragment key={index}>
                 <a href={result.FirstURL} alt="url as a search results">
