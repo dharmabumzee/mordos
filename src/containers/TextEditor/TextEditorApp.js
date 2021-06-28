@@ -10,21 +10,28 @@ import useWindowSize from "../../hooks/useWindowSize";
 
 export const TextEditorApp = () => {
   const windowSize = useWindowSize();
-  const [screenSwitch, setScreenSwitch] = useState(false);
 
   const {
     initialStateSavedNotes,
     initialStateBookmarkedNotes,
   } = getInitialState();
 
-  const [id, setId] = useState(
-    initialStateSavedNotes.length > 1
-      ? initialStateSavedNotes[initialStateSavedNotes.length - 1].id + 1
-      : 1
-  );
+  const [screenSwitch, setScreenSwitch] = useState(false);
+  const [savedNotes, setSavedNotes] = useState(initialStateSavedNotes);
 
   const [file, setFile] = useState(null);
   const [downloadAvailable, setDownloadAvailable] = useState(null);
+
+  const getLastId = (arr) => {
+    return Math.max.apply(
+      Math,
+      arr.map((el) => el.id)
+    );
+  };
+
+  const [id, setId] = useState(
+    initialStateSavedNotes.length > 1 ? getLastId(savedNotes) + 1 : 1
+  );
 
   const fileToSave = (id) => {
     let note = savedNotes.filter((note) => note.id === id);
@@ -32,7 +39,6 @@ export const TextEditorApp = () => {
     setDownloadAvailable(id);
   };
 
-  const [savedNotes, setSavedNotes] = useState(initialStateSavedNotes);
   const [state, setState] = useState({
     title: "",
     text: "",
@@ -74,6 +80,7 @@ export const TextEditorApp = () => {
 
   const bookmarkNote = (id) => {
     let bookmarkedNote = savedNotes.filter((note) => note.id === id)[0];
+
     bookmarkedNotes.includes(bookmarkedNote)
       ? setBookmarkedNotes(bookmarkedNotes.filter((note) => note.id !== id))
       : setBookmarkedNotes([...new Set([...bookmarkedNotes, bookmarkedNote])]);
@@ -102,7 +109,10 @@ export const TextEditorApp = () => {
     localStorage.setItem("bookmarkedNotes", JSON.stringify(bookmarkedNotes));
   }, [bookmarkedNotes]);
 
-  console.log(savedNotes);
+  // console.log(savedNotes);
+  // console.log("id: ", id);
+  // console.log("bookmarked: ", bookmarkedNotes);
+  // console.log(state);
 
   return (
     <>
@@ -114,6 +124,7 @@ export const TextEditorApp = () => {
           deleteNote,
           bookmarkNote,
           bookmarkedNotes,
+          setBookmarkedNotes,
           setWhatToList,
           editMode,
           setEditMode,
@@ -131,10 +142,11 @@ export const TextEditorApp = () => {
           state,
           setState,
           id,
+          getLastId,
         }}
       >
         <div
-          className={`rounded-3xl flex w-full shadow-lg ${
+          className={`rounded-3xl flex w-full ${
             windowSize.width < 768 ? "pte-height-mobile" : "pte-height"
           }`}
         >
@@ -154,6 +166,8 @@ export const TextEditorApp = () => {
                 savedNotes={savedNotes}
                 bookmarkedNotes={bookmarkedNotes}
                 whatToList={whatToList}
+                setSavedNotes={setSavedNotes}
+                setBookmarkedNotes={setBookmarkedNotes}
               />
               <TextArea
                 state={state}
@@ -166,7 +180,7 @@ export const TextEditorApp = () => {
             </>
           ) : (
             <>
-              <div className="flex flex-col w-full ">
+              <div className="flex flex-col w-full">
                 <TextArea
                   state={state}
                   setState={setState}
@@ -179,6 +193,8 @@ export const TextEditorApp = () => {
                   savedNotes={savedNotes}
                   bookmarkedNotes={bookmarkedNotes}
                   whatToList={whatToList}
+                  setSavedNotes={setSavedNotes}
+                  setBookmarkedNotes={setBookmarkedNotes}
                 />
               </div>
             </>

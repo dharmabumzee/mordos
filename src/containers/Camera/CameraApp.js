@@ -37,8 +37,8 @@ export const CameraApp = () => {
     setShow(!show);
   };
 
-  const getVideo = () => {
-    navigator.mediaDevices
+  const getVideo = async () => {
+    await navigator.mediaDevices
       .getUserMedia({
         video: { width: 1920, height: 1080 },
       })

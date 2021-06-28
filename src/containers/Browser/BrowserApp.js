@@ -36,19 +36,33 @@ export const BrowserApp = () => {
     setSearchHistory([...new Set([...searchShallowCopy, query])]);
   };
 
+  const setSearchHistoryCount = () => {
+    if (windowSize.width <= 768) {
+      return searchHistory.length === 5
+        ? updateSearchHistory()
+        : setSearchHistory([...new Set([...searchHistory.slice(0, 6), query])]);
+    } else if (windowSize.width > 1200) {
+      return searchHistory.length === 8
+        ? updateSearchHistory()
+        : setSearchHistory([...new Set([...searchHistory, query])]);
+    }
+  };
+
   const fetchData = async (query) => {
     let response = await axios.get(
       `https://cors-anywhere.herokuapp.com/api.duckduckgo.com/?q=${query}&format=json&pretty=1`
     );
 
     setResults(response.data.RelatedTopics);
-    searchHistory.length === 9
-      ? updateSearchHistory()
-      : setSearchHistory([...new Set([...searchHistory, query])]);
+
+    setSearchHistoryCount();
   };
 
   useEffect(() => {
-    localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
+    localStorage.setItem(
+      "searchHistory",
+      JSON.stringify(searchHistory.filter((q) => q))
+    );
   }, [searchHistory]);
 
   let toMap = results.length && results.filter((x) => x.Result);
@@ -136,11 +150,10 @@ export const BrowserApp = () => {
       </div>
       {/* <BrowserAPI query={query} setResults={setResults} /> */}
 
-      {/* <div className="w-full h-12 bg-gray-300 border border-gray-400 rounded-t-xl" /> */}
-      <div className="w-full h-16 mt-5 bg-gray-100 border border-gray-300 relataive ">
+      <div className="relative w-full h-16 mt-5 space-x-0 bg-gray-100 border border-gray-300">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="absolute w-6 h-6 rounded-full cursor-pointer left-8 top-5 hover:bg-gray-200"
+          className="absolute w-6 h-6 rounded-full cursor-pointer left-1.5 md:left-8 top-5 hover:bg-gray-200"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -154,7 +167,7 @@ export const BrowserApp = () => {
         </svg>
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="absolute w-6 h-6 rounded-full cursor-pointer left-20 top-5 hover:bg-gray-200"
+          className="absolute w-6 h-6 rounded-full cursor-pointer left-8 md:left-20 top-5 hover:bg-gray-200"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -168,7 +181,7 @@ export const BrowserApp = () => {
         </svg>
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="absolute w-6 h-6 rounded-full cursor-pointer top-5 left-32 hover:bg-gray-200"
+          className="absolute w-6 h-6 rounded-full cursor-pointer top-5 left-16 md:left-32 hover:bg-gray-200"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -185,7 +198,7 @@ export const BrowserApp = () => {
           <button
             key={index}
             onClick={() => fetchData(x)}
-            className={`absolute overflow-hidden z-10 w-32 h-12 transition-all ease-out transform bg-gray-300 hover:bg-gray-200 hover:border-gray-200 border-2 border-gray-300 shadow-md hover:-translate-y-1 focus:outline-none hover:shadow-2xl hover:scale-110 left-${toggleLeft(
+            className={`hidden absolute md:inline-block overflow-hidden z-10 w-32 h-12 transition-all ease-out transform bg-gray-300 hover:bg-gray-200 hover:border-gray-200 border-2 border-gray-300 shadow-md hover:-translate-y-1 focus:outline-none hover:shadow-2xl hover:scale-110 left-${toggleLeft(
               index
             )} rounded-t-xl top-4`}
           >
@@ -195,7 +208,7 @@ export const BrowserApp = () => {
 
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="absolute w-6 h-6 rounded-full cursor-pointer top-5 right-32 hover:bg-gray-200"
+          className="absolute w-6 h-6 rounded-full cursor-pointer top-5 right-16 md:right-32 hover:bg-gray-200"
           viewBox="0 0 20 20"
           fill="currentColor"
         >
@@ -207,7 +220,7 @@ export const BrowserApp = () => {
         </svg>
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="absolute w-6 h-6 rounded-full cursor-pointer top-5 right-20 hover:bg-gray-200"
+          className="absolute w-6 h-6 rounded-full cursor-pointer top-5 right-8 md:right-20 hover:bg-gray-200"
           viewBox="0 0 20 20"
           fill="currentColor"
         >
@@ -219,7 +232,7 @@ export const BrowserApp = () => {
         </svg>
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="absolute w-6 h-6 rounded-full cursor-pointer hover:bg-gray-200 top-5 right-8"
+          className="absolute w-6 h-6 rounded-full cursor-pointer hover:bg-gray-200 top-5 right-1.5 md:right-8"
           viewBox="0 0 20 20"
           fill="currentColor"
         >
@@ -231,7 +244,6 @@ export const BrowserApp = () => {
         </svg>
       </div>
       <div className="absolute left-0 z-40 w-full h-screen bg-white inset-y-1/5" />
-      {/* <div className="absolute left-0 z-40 w-2/12 h-screen bg-orange-50 inset-y-1/5" /> */}
 
       <div
         id="results"
@@ -245,6 +257,12 @@ export const BrowserApp = () => {
             using DuckDuckGo API
           </p>
         </div>
+
+        {!toMap.length && (
+          <div className="p-12 font-light text-gray-500 transition-all">
+            No search results. Try again
+          </div>
+        )}
 
         {toMap.length &&
           toMap.map((result, index) => {
@@ -272,9 +290,3 @@ export const BrowserApp = () => {
     </>
   );
 };
-
-{
-  /* <div className="p-12 font-light text-gray-500 transition-all">
-  No search results. Try again
-</div> */
-}

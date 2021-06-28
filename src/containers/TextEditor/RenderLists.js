@@ -3,22 +3,37 @@ import { RenderNote } from "./RenderNote";
 import { InputSearch } from "../../components/InputSearch";
 import { formatDate } from "../../utils/formatTimestamp";
 import { AppContext as TextEditorContext } from "../../context/AppContext";
+import { RenderAllPostsDraggable } from "./RenderAllPostsDraggable";
 
-export const RenderLists = ({ savedNotes, bookmarkedNotes, whatToList }) => {
+export const RenderLists = ({
+  savedNotes,
+  bookmarkedNotes,
+  setBookmarkedNotes,
+  setSavedNotes,
+  whatToList,
+}) => {
   const [filteredList, setFilteredList] = useState(savedNotes);
 
   const { sortedListAsc, sortedListDesc } = useContext(TextEditorContext);
 
   const renderList = () => {
-    return whatToList.all === true
-      ? renderCategory(savedNotes)
-      : whatToList.bookmarks === true
-      ? renderCategory(bookmarkedNotes)
-      : whatToList.listDesc === true
-      ? renderCategory(sortedListDesc)
-      : whatToList.listAsc === true
-      ? renderCategory(sortedListAsc)
-      : renderCategory(filteredList);
+    return whatToList.all === true ? (
+      <RenderAllPostsDraggable
+        savedList={savedNotes}
+        setSavedList={setSavedNotes}
+      />
+    ) : whatToList.bookmarks === true ? (
+      <RenderAllPostsDraggable
+        savedList={bookmarkedNotes}
+        setSavedList={setBookmarkedNotes}
+      />
+    ) : whatToList.listDesc === true ? (
+      renderCategory(sortedListDesc)
+    ) : whatToList.listAsc === true ? (
+      renderCategory(sortedListAsc)
+    ) : (
+      renderCategory(filteredList)
+    );
   };
 
   const renderCategory = (category) => {
@@ -49,8 +64,7 @@ export const RenderLists = ({ savedNotes, bookmarkedNotes, whatToList }) => {
 
   return (
     <>
-      <section className="flex flex-col w-11/12 h-full pt-3 mx-auto overflow-y-scroll sm:w-1/12 md:w-2/12 lg:w-3/12 xl:w-4/12 bg-gray-50">
-        {/* h-screen pt-3 md:overflow-y-scroll */}
+      <section className="flex flex-col w-11/12 h-full pt-3 mx-auto overflow-y-scroll shadow-inner rounded-3xl sm:w-5/12 md:w-4/12 lg:w-4/12 xl:w-4/12 bg-gray-50">
         <label className="px-3">
           <InputSearch
             data={passData()}

@@ -20,6 +20,10 @@ export const NoteIcons = ({ id }) => {
     file,
     setSearch,
     setWhatToList,
+    setState,
+    getLastId,
+    setEditMode,
+    savedNotes,
   } = useContext(TextEditorContext);
 
   const isItBookmarked = (id) => {
@@ -28,7 +32,7 @@ export const NoteIcons = ({ id }) => {
 
   return (
     <>
-      <ul className="flex space-x-4 text-gray-400">
+      <ul className="flex space-x-1 text-gray-400 md:space-x-4">
         <li onClick={() => editNote(id)} className={styles}>
           {createIcon}
         </li>
@@ -45,6 +49,13 @@ export const NoteIcons = ({ id }) => {
               bookmarks: false,
               listDesc: false,
               listAsc: false,
+            });
+            setEditMode(false);
+            setState({
+              title: "",
+              text: "",
+              date: "",
+              id: getLastId(savedNotes) + 1,
             });
           }}
           className={styles}

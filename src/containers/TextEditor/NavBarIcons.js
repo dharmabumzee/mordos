@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   trashcanIconMenu,
   folderIconMenu,
@@ -6,6 +6,7 @@ import {
   sortDescendingIcon,
   sortAscendingIcon,
 } from "../../utils/icons";
+import { AppContext as TextContextEditor } from "../../context/AppContext";
 
 const iconMenuStyle =
   "w-10 md:w-16 transition-all p-2 md:p-4 mb-4 text-gray-700 cursor-pointer rounded-2xl";
@@ -20,9 +21,14 @@ export const NavBarIcons = ({
   bookmarksLength,
   deleteAllNotes,
 }) => {
+  const { windowSize } = useContext(TextContextEditor);
   return (
     <>
-      <nav className="relative flex flex-col items-center px-8 py-10 lg:py-4 md:px-0 xl:py-4">
+      <nav
+        className={`relative flex flex-col items-center ${
+          windowSize.width < 300 ? "px-6" : "px-8"
+        } py-10 lg:py-4 md:px-0 xl:py-4`}
+      >
         <div
           onClick={() =>
             setWhatToList({

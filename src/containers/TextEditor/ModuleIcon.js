@@ -8,7 +8,9 @@ export const ModuleIcon = () => {
   return (
     <div
       className={`z-10 w-10 md:w-16 p-2 ${
-        windowSize.width < 540 ? "ml-4" : "ml-6"
+        windowSize.width < 540 && windowSize.width > 300 ? "ml-4" : "ml-2"
+      }
+        ${windowSize.width < 300 ? "ml-0" : "ml-0"}
       } md:p-4 md:mx-auto mt-8 md:mt-12 mb-20 text-white ${
         textfile.backgroundColor
       } rounded-2xl`}

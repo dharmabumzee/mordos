@@ -58,7 +58,7 @@ export const RSSContent = () => {
       </div>
 
       <section
-        className={`flex flex-col h-full pt-3 overflow-y-scroll border-l ${rssFeedWidth} bg-gray-50`}
+        className={`flex flex-col h-full pt-3 overflow-y-scroll shadow-inner rounded-t-3xl ${rssFeedWidth} bg-gray-50`}
       >
         <Search
           props={comments}
