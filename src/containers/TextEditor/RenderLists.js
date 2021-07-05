@@ -12,20 +12,22 @@ export const RenderLists = ({
   setSavedNotes,
   whatToList,
 }) => {
-  const [filteredList, setFilteredList] = useState(savedNotes);
-
   const { sortedListAsc, sortedListDesc } = useContext(TextEditorContext);
+
+  const [filteredList, setFilteredList] = useState(savedNotes);
 
   const renderList = () => {
     return whatToList.all === true ? (
       <RenderAllPostsDraggable
         savedList={savedNotes}
         setSavedList={setSavedNotes}
+        type="notes"
       />
     ) : whatToList.bookmarks === true ? (
       <RenderAllPostsDraggable
         savedList={bookmarkedNotes}
         setSavedList={setBookmarkedNotes}
+        type="bookmarks"
       />
     ) : whatToList.listDesc === true ? (
       renderCategory(sortedListDesc)

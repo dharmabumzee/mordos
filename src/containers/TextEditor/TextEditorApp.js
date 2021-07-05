@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { RenderLists } from "./RenderLists";
 import { NavBarIcons } from "./NavBarIcons";
 import { TextArea } from "./TextArea";
@@ -15,6 +15,12 @@ export const TextEditorApp = () => {
     initialStateSavedNotes,
     initialStateBookmarkedNotes,
   } = getInitialState();
+
+  console.log("INITIAL: ", initialStateBookmarkedNotes);
+  const [bookmarkedNotes, setBookmarkedNotes] = useState([
+    ...(initialStateBookmarkedNotes ?? []),
+  ]);
+  console.log("INITIAL IN STATE ", bookmarkedNotes);
 
   const [screenSwitch, setScreenSwitch] = useState(false);
   const [savedNotes, setSavedNotes] = useState(initialStateSavedNotes);
@@ -45,9 +51,6 @@ export const TextEditorApp = () => {
     id: id,
   });
 
-  const [bookmarkedNotes, setBookmarkedNotes] = useState(
-    initialStateBookmarkedNotes
-  );
   const [whatToList, setWhatToList] = useState({
     all: true,
     bookmarks: false,
@@ -150,6 +153,7 @@ export const TextEditorApp = () => {
           setState,
           id,
           getLastId,
+          whatToList,
         }}
       >
         <div

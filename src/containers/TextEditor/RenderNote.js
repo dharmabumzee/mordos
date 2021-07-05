@@ -5,6 +5,7 @@ import { AppContext as TextEditorContext } from "../../context/AppContext";
 export const RenderNote = ({ id, title, date, excerpt }) => {
   const {
     windowSize,
+    state,
     setState,
     editMode,
     setEditMode,
@@ -36,6 +37,15 @@ export const RenderNote = ({ id, title, date, excerpt }) => {
     });
   };
 
+  const switchEdit = () => {
+    setState({
+      title,
+      date,
+      id,
+      text: excerpt,
+    });
+  };
+
   return (
     <>
       <li
@@ -45,7 +55,11 @@ export const RenderNote = ({ id, title, date, excerpt }) => {
       >
         <div
           onClick={() => {
-            !editMode ? startEdit() : endEdit();
+            !editMode
+              ? startEdit()
+              : state.id !== id
+              ? switchEdit()
+              : endEdit();
           }}
           className="cursor-pointer"
         >

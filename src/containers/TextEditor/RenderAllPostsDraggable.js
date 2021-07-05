@@ -3,7 +3,7 @@ import { RenderNote } from "./RenderNote";
 import { formatDate } from "../../utils/formatTimestamp";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
-export const RenderAllPostsDraggable = ({ savedList, setSavedList }) => {
+export const RenderAllPostsDraggable = ({ savedList, setSavedList, type }) => {
   let items;
   const reorder = (list, startIndex, endIndex) => {
     const result = [...list];
