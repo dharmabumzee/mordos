@@ -24,16 +24,29 @@ export const NoteIcons = ({ id }) => {
     getLastId,
     setEditMode,
     savedNotes,
+    editMode,
   } = useContext(TextEditorContext);
 
   const isItBookmarked = (id) => {
     return bookmarkedNotes.some((note) => note.id === id);
   };
 
+  const clearEdit = () => {
+    setEditMode(false);
+    setState({
+      title: "",
+      text: "",
+      id: getLastId(savedNotes) + 1,
+    });
+  };
+
   return (
     <>
       <ul className="flex space-x-1 text-gray-400 md:space-x-4">
-        <li onClick={() => editNote(id)} className={styles}>
+        <li
+          onClick={() => (editMode ? clearEdit() : editNote(id))}
+          className={styles}
+        >
           {createIcon}
         </li>
         <li className={`${styles} `}>

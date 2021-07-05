@@ -30,7 +30,14 @@ export const TextEditorApp = () => {
   };
 
   const [id, setId] = useState(
-    initialStateSavedNotes.length > 1 ? getLastId(savedNotes) + 1 : 1
+    initialStateSavedNotes.length >= 1 ? getLastId(savedNotes) + 1 : 1
+  );
+
+  console.log(
+    "initialStateSavedNotes: ",
+    initialStateSavedNotes,
+    "lastId: ",
+    getLastId(savedNotes)
   );
 
   const fileToSave = (id) => {
@@ -73,6 +80,12 @@ export const TextEditorApp = () => {
   };
 
   const deleteNote = (id) => {
+    setEditMode(false);
+    setState({
+      title: "",
+      text: "",
+      id: getLastId(savedNotes) + 1,
+    });
     let filteredNotes = (notes) => notes.filter((note) => note.id !== id);
     setSavedNotes(filteredNotes(savedNotes));
     setBookmarkedNotes(filteredNotes(bookmarkedNotes));
@@ -89,6 +102,12 @@ export const TextEditorApp = () => {
   const deleteAllNotes = () => {
     setSavedNotes([]);
     setBookmarkedNotes([]);
+    setEditMode(false);
+    setState({
+      title: "",
+      text: "",
+      id: id,
+    });
   };
 
   let sortedListAsc;
