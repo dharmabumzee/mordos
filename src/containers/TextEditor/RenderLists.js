@@ -55,8 +55,6 @@ export const RenderLists = ({
     );
   };
 
-  console.log(savedNotes);
-
   useEffect(() => {
     setFilteredList(savedNotes);
   }, [savedNotes]);

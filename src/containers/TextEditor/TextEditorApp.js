@@ -33,13 +33,6 @@ export const TextEditorApp = () => {
     initialStateSavedNotes.length >= 1 ? getLastId(savedNotes) + 1 : 1
   );
 
-  console.log(
-    "initialStateSavedNotes: ",
-    initialStateSavedNotes,
-    "lastId: ",
-    getLastId(savedNotes)
-  );
-
   const fileToSave = (id) => {
     let note = savedNotes.filter((note) => note.id === id);
     setFile(note);
