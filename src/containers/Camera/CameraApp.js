@@ -46,14 +46,9 @@ export const CameraApp = () => {
         let video = videoRef.current;
         video.srcObject = stream;
         setCameraStream(video);
-        video.play();
-        return new Promise(
-          (resolve) =>
-            (video.onplaying = resolve) &&
-            setTimeout(() => {
-              setIsLoading(false);
-            }, 1000)
-        );
+        !video.pause() && video.play();
+        setIsLoading(false);
+        return new Promise((resolve) => (video.onplaying = resolve));
       })
       .catch((err) => console.error(err));
   };
@@ -100,7 +95,11 @@ export const CameraApp = () => {
   }, [photos]);
 
   useEffect(() => {
-    return !closeWindow && cameraStream.srcObject.getTracks()[0].stop();
+    return (
+      cameraStream &&
+      !closeWindow &&
+      cameraStream.srcObject.getTracks().forEach((stream) => stream.stop())
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [closeWindow]);
 
