@@ -46,7 +46,7 @@ export const CameraApp = () => {
         let video = videoRef.current;
         video.srcObject = stream;
         setCameraStream(video);
-        !video.pause() && video.play();
+        video.play();
         setIsLoading(false);
         return new Promise((resolve) => (video.onplaying = resolve));
       })
